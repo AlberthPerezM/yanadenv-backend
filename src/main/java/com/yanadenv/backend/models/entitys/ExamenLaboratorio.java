@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,10 +24,12 @@ public class ExamenLaboratorio implements Serializable {
     @Column(name = "examen_resultado", length = 100)
     private String examenResultado;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_resultado")
-    private Date fechaResultado;
-    
+   
+
+
+@Column(name = "fecha_resultado")
+private LocalDate fechaResultado;
+
     
     @ManyToMany(mappedBy = "examenesLaboratorio", fetch = FetchType.LAZY)
     @JsonIgnore
@@ -57,13 +60,14 @@ public class ExamenLaboratorio implements Serializable {
         this.examenResultado = examenResultado;
     }
 
-    public Date getFechaResultado() {
+    public LocalDate getFechaResultado() {
         return fechaResultado;
     }
-
-    public void setFechaResultado(Date fechaResultado) {
+    
+    public void setFechaResultado(LocalDate fechaResultado) {
         this.fechaResultado = fechaResultado;
     }
+    
 
     public List<Participante> getParticipantes() {
 		return participantes;
