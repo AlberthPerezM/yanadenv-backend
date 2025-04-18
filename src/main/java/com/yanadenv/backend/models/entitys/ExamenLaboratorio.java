@@ -1,7 +1,6 @@
 package com.yanadenv.backend.models.entitys;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -31,7 +30,8 @@ public class ExamenLaboratorio implements Serializable {
 private LocalDate fechaResultado;
 
     
-    @ManyToMany(mappedBy = "examenesLaboratorio", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "examenesLaboratorio", fetch = FetchType.LAZY  ,cascade = {CascadeType.PERSIST, CascadeType.MERGE} // Añadir cascada
+)
     @JsonIgnore
     private List<Participante> participantes = new ArrayList<>();
 

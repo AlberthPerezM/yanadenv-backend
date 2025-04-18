@@ -40,8 +40,8 @@ public class Participante implements Serializable {
     @Column(name = "edad_gestacional")
     private Integer edadGestacional;
     
-  
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
     @JoinTable(
         name = "participante_examen_laboratorio",
         joinColumns = @JoinColumn(name = "id_par"),

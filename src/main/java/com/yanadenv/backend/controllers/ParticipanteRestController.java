@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.yanadenv.backend.models.entitys.ExamenLaboratorio;
 import com.yanadenv.backend.models.entitys.Participante;
@@ -21,7 +22,91 @@ public class ParticipanteRestController {
     private IParticipanteService participanteService;
     @Autowired
     private IExamenLaboratorioService examenLaboratorioService;
+     //
+     
+    // Método modificado para crear y asociar exámenes nuevos
+    /*@PostMapping("/participantes/{idPar}/examenes")
+public Participante asignarExamenes(@PathVariable Integer idPar, @RequestBody List<ExamenLaboratorio> examenes) {
+    Participante participante = participanteService.findById(idPar);
+    if (participante == null) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante no encontrado");
+    }
 
+    if (participante.getExamenesLaboratorio() == null) {
+        participante.setExamenesLaboratorio(new ArrayList<>());
+    }
+
+    List<ExamenLaboratorio> examenesGuardados = new ArrayList<>();
+    for (ExamenLaboratorio examen : examenes) {
+        // Si el examen ya tiene ID, verificar que existe
+        if (examen.getIdExa() != null) {
+            ExamenLaboratorio examenExistente = examenLaboratorioService.findById(examen.getIdExa());
+            if (examenExistente != null) {
+                examenesGuardados.add(examenExistente);
+            }
+        } else {
+            // Si es nuevo examen, guardarlo primero
+            ExamenLaboratorio examenGuardado = examenLaboratorioService.save(examen);
+            examenesGuardados.add(examenGuardado);
+        }
+    }
+
+    // Actualizar la relación
+    for (ExamenLaboratorio examen : examenesGuardados) {
+        if (!participante.getExamenesLaboratorio().contains(examen)) {
+            participante.getExamenesLaboratorio().add(examen);
+        }
+    }
+
+    return participanteService.save(participante);
+}*/
+
+
+@PostMapping("/participantes/{idPar}/examenes")
+public Participante asignarExamenes(@PathVariable Integer idPar, 
+                                  @RequestBody List<ExamenLaboratorio> examenes) {
+    // Logging para diagnóstico
+    System.out.println("ID Participante: " + idPar);
+    System.out.println("Exámenes recibidos: " + examenes);
+
+    // Lógica de negocio
+    Participante participante = participanteService.findById(idPar);
+    if (participante == null) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante no encontrado");
+    }
+
+    if (participante.getExamenesLaboratorio() == null) {
+        participante.setExamenesLaboratorio(new ArrayList<>());
+    }
+
+    List<ExamenLaboratorio> examenesGuardados = new ArrayList<>();
+    for (ExamenLaboratorio examen : examenes) {
+        // Si el examen ya tiene ID, verificar que existe
+        if (examen.getIdExa() != null) {
+            ExamenLaboratorio examenExistente = examenLaboratorioService.findById(examen.getIdExa());
+            if (examenExistente != null) {
+                examenesGuardados.add(examenExistente);
+            }
+        } else {
+            // Si es nuevo examen, guardarlo primero
+            ExamenLaboratorio examenGuardado = examenLaboratorioService.save(examen);
+            examenesGuardados.add(examenGuardado);
+        }
+    }
+
+    // Actualizar la relación bidireccional
+    for (ExamenLaboratorio examen : examenesGuardados) {
+        if (!participante.getExamenesLaboratorio().contains(examen)) {
+            participante.getExamenesLaboratorio().add(examen);
+            examen.getParticipantes().add(participante); // Mantener consistencia bidireccional
+        }
+    }
+
+    // Logging del resultado antes de guardar
+    System.out.println("Participante actualizado: " + participante);
+    
+    return participanteService.save(participante);
+}
     // Obtener todos los participantes
     @GetMapping("/participantes")
     public List<Participante> index() {
