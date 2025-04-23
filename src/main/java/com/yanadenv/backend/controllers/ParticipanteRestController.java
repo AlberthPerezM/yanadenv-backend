@@ -12,9 +12,9 @@ import com.yanadenv.backend.models.entitys.ExamenLaboratorio;
 import com.yanadenv.backend.models.entitys.Participante;
 import com.yanadenv.backend.models.services.IExamenLaboratorioService;
 import com.yanadenv.backend.models.services.IParticipanteService;
-
-@CrossOrigin(origins = "http://localhost:4200")  // Para permitir solicitudes desde Angular
+// Para permitir solicitudes desde Angular
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")  
 @RequestMapping("/api")
 public class ParticipanteRestController {
 
@@ -22,45 +22,6 @@ public class ParticipanteRestController {
     private IParticipanteService participanteService;
     @Autowired
     private IExamenLaboratorioService examenLaboratorioService;
-     //
-     
-    // Método modificado para crear y asociar exámenes nuevos
-    /*@PostMapping("/participantes/{idPar}/examenes")
-public Participante asignarExamenes(@PathVariable Integer idPar, @RequestBody List<ExamenLaboratorio> examenes) {
-    Participante participante = participanteService.findById(idPar);
-    if (participante == null) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante no encontrado");
-    }
-
-    if (participante.getExamenesLaboratorio() == null) {
-        participante.setExamenesLaboratorio(new ArrayList<>());
-    }
-
-    List<ExamenLaboratorio> examenesGuardados = new ArrayList<>();
-    for (ExamenLaboratorio examen : examenes) {
-        // Si el examen ya tiene ID, verificar que existe
-        if (examen.getIdExa() != null) {
-            ExamenLaboratorio examenExistente = examenLaboratorioService.findById(examen.getIdExa());
-            if (examenExistente != null) {
-                examenesGuardados.add(examenExistente);
-            }
-        } else {
-            // Si es nuevo examen, guardarlo primero
-            ExamenLaboratorio examenGuardado = examenLaboratorioService.save(examen);
-            examenesGuardados.add(examenGuardado);
-        }
-    }
-
-    // Actualizar la relación
-    for (ExamenLaboratorio examen : examenesGuardados) {
-        if (!participante.getExamenesLaboratorio().contains(examen)) {
-            participante.getExamenesLaboratorio().add(examen);
-        }
-    }
-
-    return participanteService.save(participante);
-}*/
-
 
 @PostMapping("/participantes/{idPar}/examenes")
 public Participante asignarExamenes(@PathVariable Integer idPar, 
@@ -106,7 +67,9 @@ public Participante asignarExamenes(@PathVariable Integer idPar,
     System.out.println("Participante actualizado: " + participante);
     
     return participanteService.save(participante);
+
 }
+
     // Obtener todos los participantes
     @GetMapping("/participantes")
     public List<Participante> index() {
