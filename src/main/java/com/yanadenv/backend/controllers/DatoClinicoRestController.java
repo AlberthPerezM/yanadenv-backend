@@ -1,7 +1,6 @@
 package com.yanadenv.backend.controllers;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,17 +47,43 @@ public class DatoClinicoRestController {
     // Actualizar un dato clínico existente
     @PutMapping("/datosclinicos/{id}")
     public DatoClinico update(@RequestBody DatoClinico datoClinico, @PathVariable Integer id) {
-        DatoClinico datoClinicoActual = datoClinicoService.findById(id);
-        
-        // Actualizar todos los campos necesarios
-        datoClinicoActual.setFechaInicioSintomas(datoClinico.getFechaInicioSintomas());
-        datoClinicoActual.setFechaTomaMuestra1(datoClinico.getFechaTomaMuestra1());
-        datoClinicoActual.setFechaTomaMuestra2(datoClinico.getFechaTomaMuestra2());
-        datoClinicoActual.setFiebre(datoClinico.getFiebre());
-        datoClinicoActual.setTemperatura(datoClinico.getTemperatura());
-        // Continúa con todos los demás campos que necesites actualizar...
-        
-        return datoClinicoService.save(datoClinicoActual);
+        DatoClinico datoActual = datoClinicoService.findById(id);
+        datoActual.setFechaInicioSintomas(datoClinico.getFechaInicioSintomas()); // <-- LÍNEA CLAVE
+        datoActual.setFechaTomaMuestra1(datoClinico.getFechaTomaMuestra1());
+        datoActual.setFechaTomaMuestra2(datoClinico.getFechaTomaMuestra2());
+        datoActual.setFiebre(datoClinico.getFiebre());
+        datoActual.setTemperatura(datoClinico.getTemperatura());
+        datoActual.setMialgias(datoClinico.getMialgias());
+        datoActual.setCefalea(datoClinico.getCefalea());
+        datoActual.setDolorOcular(datoClinico.getDolorOcular());
+        datoActual.setDolorLumbar(datoClinico.getDolorLumbar());
+        datoActual.setErupcionCutanea(datoClinico.getErupcionCutanea());
+        datoActual.setConjuntivitis(datoClinico.getConjuntivitis());
+        datoActual.setNauseasVomitos(datoClinico.getNauseasVomitos());
+        datoActual.setOtrosSintomas1(datoClinico.getOtrosSintomas1());
+        datoActual.setOtrosSintomas2(datoClinico.getOtrosSintomas2());
+        datoActual.setOtrosSintomas3(datoClinico.getOtrosSintomas3());
+        datoActual.setOtrosSintomas4(datoClinico.getOtrosSintomas4());
+        datoActual.setDolorAbdominalIntenso(datoClinico.getDolorAbdominalIntenso());
+        datoActual.setDolorToracicoDisnea(datoClinico.getDolorToracicoDisnea());
+        datoActual.setDerrameSeroso(datoClinico.getDerrameSeroso());
+        datoActual.setHipotermia(datoClinico.getHipotermia());
+        datoActual.setDiuresisDisminuida(datoClinico.getDiuresisDisminuida());
+        datoActual.setHepatomegalia(datoClinico.getHepatomegalia());
+        datoActual.setIctericia(datoClinico.getIctericia());
+        datoActual.setEstadoMentalAlterado(datoClinico.getEstadoMentalAlterado());
+        datoActual.setHematocritoIncrementado(datoClinico.getHematocritoIncrementado());
+        datoActual.setPulsoIndetectable(datoClinico.getPulsoIndetectable());
+        datoActual.setExtremidadesFrias(datoClinico.getExtremidadesFrias());
+        datoActual.setDifPresionArterial(datoClinico.getDifPresionArterial());
+        datoActual.setCompromisoOrganos(datoClinico.getCompromisoOrganos());
+        datoActual.setTipoCompromisoOrganos(datoClinico.getTipoCompromisoOrganos());
+        datoActual.setSangradoGrave(datoClinico.getSangradoGrave());
+        datoActual.setTipoSangrado(datoClinico.getTipoSangrado());
+        datoActual.setGlasgowAperturaOcular(datoClinico.getGlasgowAperturaOcular());
+        datoActual.setGlasgowAperturaMotora(datoClinico.getGlasgowAperturaMotora());
+        datoActual.setGlasgowAperturaVerbal(datoClinico.getGlasgowAperturaVerbal());
+        return datoClinicoService.save(datoActual);
     }
 
     // Eliminar un dato clínico por ID
@@ -67,5 +92,4 @@ public class DatoClinicoRestController {
     public void delete(@PathVariable Integer id) {
         datoClinicoService.delete(id);
     }
-
 }
