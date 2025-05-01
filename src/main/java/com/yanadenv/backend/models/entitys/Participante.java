@@ -40,6 +40,7 @@ public class Participante implements Serializable {
     @Column(name = "edad_gestacional")
     private Integer edadGestacional;
     
+    //Examenes laboratorio
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "participante_examen_laboratorio",
@@ -48,6 +49,15 @@ public class Participante implements Serializable {
     )
     private List<ExamenLaboratorio> examenesLaboratorio;
     
+    //Datos clinicos
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "participante_dato_clinico",
+        joinColumns = @JoinColumn(name = "id_par"),
+        inverseJoinColumns = @JoinColumn(name = "id_dat")
+    )
+    private List<DatoClinico> datosClinicos;
+
     private static final long serialVersionUID = 1L;
 
     // Getters y Setters
@@ -137,6 +147,14 @@ public class Participante implements Serializable {
 
 	public void setExamenesLaboratorio(List<ExamenLaboratorio> examenesLaboratorio) {
 		this.examenesLaboratorio = examenesLaboratorio;
+	}
+
+	public List<DatoClinico> getDatosClinicos() {
+		return datosClinicos;
+	}
+
+	public void setDatosClinicos(List<DatoClinico> datosClinicos) {
+		this.datosClinicos = datosClinicos;
 	}
 
 }
