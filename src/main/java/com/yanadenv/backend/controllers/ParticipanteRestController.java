@@ -117,6 +117,11 @@ public class ParticipanteRestController {
 	public void delete(@PathVariable Integer id) {
 		participanteService.delete(id);
 	}
+	//Contador de participantes
+	@GetMapping("/participantes/count")
+    public Long countParticipantes() {
+        return participanteService.countParticipantes();
+    }
 
 	// Controlador para examne_participante
 	@PostMapping("/participantes/{idPar}/examenes/{idExa}")

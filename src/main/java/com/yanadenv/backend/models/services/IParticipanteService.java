@@ -20,4 +20,8 @@ public interface IParticipanteService {
     List<DatoClinico> findDatosClinicosByParticipanteId(Integer idPar);
     Participante addDatoClinicoToParticipante(Integer idPar, Integer idDat);
     Participante removeDatoClinicoFromParticipante(Integer idPar, Integer idDat);
+    /*Contador */
+    Long countParticipantes();
+
+
 }

@@ -130,4 +130,9 @@ public class ParticipanteServiceImpl implements IParticipanteService {
         
         return save(participante);
     }
+    @Override
+    @Transactional(readOnly = true)
+    public Long countParticipantes() {
+        return participanteDao.count();
+    }
 }
