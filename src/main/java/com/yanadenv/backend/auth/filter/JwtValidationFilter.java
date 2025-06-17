@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yanadenv.backend.auth.SimpleGrantedAuthorityJsonCreator;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -44,42 +46,31 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
         }
 
         String token = header.replace(PREFIX_TOKEN, "");
-
         try {
-            Claims claims = Jwts.parser()
-                    .verifyWith(SECRET_KEY)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
-
+            Claims claims = Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token).getPayload();
             String username = claims.getSubject();
+            // String username2 = (String) claims.get("username");
             Object authoritiesClaims = claims.get("authorities");
 
-            Collection<GrantedAuthority> roles = new ArrayList<>();
-            ObjectMapper mapper = new ObjectMapper();
+            Collection<? extends GrantedAuthority> roles = Arrays.asList(new ObjectMapper()
+            .addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthorityJsonCreator.class)
+                    .readValue(authoritiesClaims.toString().getBytes(), SimpleGrantedAuthority[].class));
 
-            // Parseamos el string JSON del campo "authorities"
-            @SuppressWarnings("unchecked")
-            List<Map<String, String>> authorityList = mapper.readValue(authoritiesClaims.toString(), List.class);
-
-            for (Map<String, String> roleMap : authorityList) {
-                roles.add(new SimpleGrantedAuthority(roleMap.get("authority")));
-            }
-
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(username, null, roles);
-
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, 
+                    roles);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             chain.doFilter(request, response);
 
         } catch (JwtException e) {
             Map<String, String> body = new HashMap<>();
             body.put("error", e.getMessage());
-            body.put("message", "El token es inválido!");
+            body.put("message", "El token es invalido!");
 
             response.getWriter().write(new ObjectMapper().writeValueAsString(body));
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(401);
             response.setContentType(CONTENT_TYPE);
         }
+
     }
+
 }
