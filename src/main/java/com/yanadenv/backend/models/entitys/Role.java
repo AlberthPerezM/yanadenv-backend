@@ -7,17 +7,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name = "roles")
+@Table(name="roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rol_id", nullable = false)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(unique = true)
     private String name;
 
     public Role() {
@@ -27,11 +25,11 @@ public class Role {
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -42,5 +40,6 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
+
     
 }

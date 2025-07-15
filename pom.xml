@@ -98,12 +98,22 @@
 			<version>6.3.6</version>
 		</dependency>
 	</dependencies>
+
+
 	<build>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+					<image>
+                        <name>sampleimage</name>
+                    </image>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
