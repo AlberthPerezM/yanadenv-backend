@@ -3,6 +3,7 @@ package com.yanadenv.backend.controllers;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,4 +93,11 @@ public class DatoClinicoRestController {
     public void delete(@PathVariable Integer id) {
         datoClinicoService.delete(id);
     }
+    // Contar todos los datos clínicos
+    @GetMapping("/datosclinicos/count")
+    public ResponseEntity<Long> countDatosClinicos() {
+        Long count = datoClinicoService.countDatosClinicos();
+        return ResponseEntity.ok(count);
+    }
+    
 }

@@ -3,9 +3,7 @@ package com.yanadenv.backend.auth.filter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -65,7 +63,6 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             Map<String, String> body = new HashMap<>();
             body.put("error", e.getMessage());
             body.put("message", "El token es invalido!");
-
             response.getWriter().write(new ObjectMapper().writeValueAsString(body));
             response.setStatus(401);
             response.setContentType(CONTENT_TYPE);

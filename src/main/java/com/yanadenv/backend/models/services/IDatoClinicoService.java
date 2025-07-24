@@ -10,4 +10,6 @@ public interface IDatoClinicoService {
     public DatoClinico findById(Integer id);
     public DatoClinico save(DatoClinico datoClinico);
     public void delete(Integer id);
+     /*Contador */
+    Long countDatosClinicos();
 }
