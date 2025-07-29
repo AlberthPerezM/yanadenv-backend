@@ -95,9 +95,9 @@ public class DatoClinicoRestController {
     }
     // Contar todos los datos clínicos
     @GetMapping("/datosclinicos/count")
-    public ResponseEntity<Long> countDatosClinicos() {
+    public ResponseEntity<Long> countDatoClinicos() {
         Long count = datoClinicoService.countDatosClinicos();
         return ResponseEntity.ok(count);
     }
-    
+
 }

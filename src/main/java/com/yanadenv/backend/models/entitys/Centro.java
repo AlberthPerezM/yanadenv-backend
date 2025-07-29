@@ -1,8 +1,5 @@
 package com.yanadenv.backend.models.entitys;
-import java.io.Serializable;
-import java.math.BigDecimal;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,66 +13,99 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "centro")
-public class Centro implements Serializable {
+public class Centro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCen;
+    @Column(name = "id_cent")
+    private Integer idCent;
 
-    @Column(name = "nombre_cen", length = 150, nullable = false)
-    private String nombreCen;
+    @Column(name = "habilitado_cent", nullable = false)
+    private boolean habilitadoCent;
 
-    @Column(name = "latitud", precision = 10, scale = 6)
-    private BigDecimal latitud;
+    @Column(name = "direccion", nullable = false, length = 255)
+    private String direccion;
 
-    @Column(name = "longitud", precision = 10, scale = 6)
-    private BigDecimal longitud;
+    @Column(name = "latitud", nullable = false)
+    private Double latitud;
+
+    @Column(name = "longitud", nullable = false)
+    private Double longitud;
+
+    @Column(name = "nivel", nullable = false)
+    private Byte nivel;
+
+    @Column(name = "nombre_cent", nullable = false, length = 255)
+    private String nombreCent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_niv") // Clave foránea a Nivel
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Nivel nivel;
+    @JoinColumn(name = "id_dist", nullable = false)
+    @JsonBackReference
+    private Distrito distrito;
 
     // Getters y Setters
-    public Integer getIdCen() {
-        return idCen;
+
+    public Integer getIdCent() {
+        return idCent;
     }
 
-    public void setIdCen(Integer idCen) {
-        this.idCen = idCen;
+    public void setIdCent(Integer idCent) {
+        this.idCent = idCent;
     }
 
-    public String getNombreCen() {
-        return nombreCen;
+    public boolean isHabilitadoCent() {
+        return habilitadoCent;
     }
 
-    public void setNombreCen(String nombreCen) {
-        this.nombreCen = nombreCen;
+    public void setHabilitadoCent(boolean habilitadoCent) {
+        this.habilitadoCent = habilitadoCent;
     }
 
-    public BigDecimal getLatitud() {
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(BigDecimal latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
 
-    public BigDecimal getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(BigDecimal longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 
-    public Nivel getNivel() {
+    public Byte getNivel() {
         return nivel;
     }
 
-    public void setNivel(Nivel nivel) {
+    public void setNivel(Byte nivel) {
         this.nivel = nivel;
     }
 
-    private static final long serialVersionUID = 1L;
+    public String getNombreCent() {
+        return nombreCent;
+    }
+
+    public void setNombreCent(String nombreCent) {
+        this.nombreCent = nombreCent;
+    }
+
+    public Distrito getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(Distrito distrito) {
+        this.distrito = distrito;
+    }
 }

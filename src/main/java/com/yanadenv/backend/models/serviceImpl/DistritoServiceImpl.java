@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yanadenv.backend.models.dao.IDistritoDao;
+import com.yanadenv.backend.models.entitys.Centro;
 import com.yanadenv.backend.models.entitys.Distrito;
 import com.yanadenv.backend.models.services.IDistritoService;
 
@@ -16,6 +17,8 @@ public class DistritoServiceImpl implements IDistritoService {
 
     @Autowired 
     private IDistritoDao distritoDao;
+
+
 
     @Override
     @Transactional(readOnly = true) 
@@ -41,5 +44,9 @@ public class DistritoServiceImpl implements IDistritoService {
         distritoDao.deleteById(id);
     }
 
-
+	@Override
+    @Transactional(readOnly = true)
+	public List<Centro> findAllCentros() {
+		 return distritoDao.findAllCentros();
+	}
 }

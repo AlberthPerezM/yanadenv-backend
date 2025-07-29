@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yanadenv.backend.models.dao.ICentroDao;
 import com.yanadenv.backend.models.entitys.Centro;
-import com.yanadenv.backend.models.entitys.Nivel;
 import com.yanadenv.backend.models.services.ICentroService;
 
 @Service
@@ -41,10 +40,11 @@ public class CentroServiceImpl implements ICentroService{
 	public void delete(Integer id) {
 		centroDao.deleteById(id);
 	}
-    //Lista de niveles
+    //Contador de centros
 	@Override
 	@Transactional(readOnly = true)
-	public List<Nivel> findAllNiveles() {
-	    return centroDao.findAllNiveles();
+	public Long countCentros() {
+	    return centroDao.count();
 	}
+
 }

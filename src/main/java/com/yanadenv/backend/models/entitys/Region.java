@@ -29,7 +29,7 @@ public class Region {
 
     @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Provincia> provincias;
+    private List<Provincia> provincias= new ArrayList<>();
 
 
     // Getters y setters

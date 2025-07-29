@@ -38,7 +38,7 @@ public class Provincia {
     private Region region;
 
     @OneToMany(mappedBy = "provincia", cascade = CascadeType.ALL)
-    @JsonManagedReference  // <-- agregar esta anotación aquí
+    @JsonManagedReference  
     private List<Distrito> distritos = new ArrayList<>();
 
 	public Integer getIdProv() {
