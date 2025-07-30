@@ -21,28 +21,26 @@ public class ParticipanteServiceImpl implements IParticipanteService {
     @Autowired
     private IParticipanteDao participanteDao;
 
-   
-    
     @Override
     @Transactional(readOnly = true)
     public List<Participante> findAll() {
         return (List<Participante>) participanteDao.findAll();
     }
-    
+
     // Buscar ID
     @Override
     @Transactional(readOnly = true)
     public Participante findById(Integer id) {
         return participanteDao.findById(id).orElse(null);
     }
-    
+
     // Guardar
     @Override
-    @Transactional 
+    @Transactional
     public Participante save(Participante participante) {
         return participanteDao.save(participante);
     }
-    
+
     // Eliminar
     @Override
     @Transactional
@@ -50,7 +48,7 @@ public class ParticipanteServiceImpl implements IParticipanteService {
         participanteDao.deleteById(id);
     }
 
- // En ParticipanteServiceImpl, agregar:
+    // En ParticipanteServiceImpl, agregar:
 
     @Autowired
     private IExamenLaboratorioService examenService;
@@ -66,7 +64,7 @@ public class ParticipanteServiceImpl implements IParticipanteService {
     public Participante addExamenToParticipante(Integer idPar, Integer idExa) {
         Participante participante = participanteDao.findById(idPar).orElse(null);
         ExamenLaboratorio examen = examenService.findById(idExa);
-        
+
         if (participante != null && examen != null) {
             if (participante.getExamenesLaboratorio() == null) {
                 participante.setExamenesLaboratorio(new ArrayList<>());
@@ -77,18 +75,29 @@ public class ParticipanteServiceImpl implements IParticipanteService {
         return null;
     }
 
-
-
     @Override
     @Transactional(readOnly = true)
     public List<Participante> findByExamenId(Integer idExa) {
         return participanteDao.findByExamenesLaboratorio_IdExa(idExa);
     }
 
-    
+    @Override
+    public Participante removeExamenFromParticipante(Integer participanteId, Integer examenId) {
+        Participante participante = findById(participanteId);
+        ExamenLaboratorio examen = examenService.findById(examenId);
+
+        if (!participante.getExamenesLaboratorio().remove(examen)) {
+            throw new IllegalArgumentException("El examen no está asociado al participante");
+        }
+
+        return save(participante);
+    }
+
+    /* Datos clinicos */
     @Autowired
     private IDatoClinicoService datoClinicoService;
-/*Datoclinico*/
+
+    /* Datoclinico */
     @Override
     @Transactional(readOnly = true)
     public List<DatoClinico> findDatosClinicosByParticipanteId(Integer idPar) {
@@ -101,18 +110,18 @@ public class ParticipanteServiceImpl implements IParticipanteService {
     public Participante addDatoClinicoToParticipante(Integer idPar, Integer idDat) {
         Participante participante = findById(idPar);
         DatoClinico datoClinico = datoClinicoService.findById(idDat);
-        
+
         if (participante == null || datoClinico == null) {
             throw new RuntimeException("Participante o Dato Clínico no encontrado");
         }
-        
+
         if (participante.getDatosClinicos() == null) {
             participante.setDatosClinicos(new ArrayList<>());
         }
-        
+
         participante.getDatosClinicos().add(datoClinico);
         datoClinico.getParticipantes().add(participante);
-        
+
         return save(participante);
     }
 
@@ -121,16 +130,17 @@ public class ParticipanteServiceImpl implements IParticipanteService {
     public Participante removeDatoClinicoFromParticipante(Integer idPar, Integer idDat) {
         Participante participante = findById(idPar);
         DatoClinico datoClinico = datoClinicoService.findById(idDat);
-        
+
         if (participante == null || datoClinico == null) {
             throw new RuntimeException("Participante o Dato Clínico no encontrado");
         }
-        
+
         participante.getDatosClinicos().remove(datoClinico);
         datoClinico.getParticipantes().remove(participante);
-        
+
         return save(participante);
     }
+
     @Override
     @Transactional(readOnly = true)
     public Long countParticipantes() {

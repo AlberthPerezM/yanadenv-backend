@@ -138,7 +138,7 @@ public class DatoClinico implements Serializable {
 			CascadeType.MERGE })
 	@JsonIgnore
 	private List<Participante> participantes = new ArrayList<>();
-	
+
 	// Getters y Setters
 
 	public LocalDateTime getFechaRegistro() {
@@ -444,5 +444,5 @@ public class DatoClinico implements Serializable {
 	public void setParticipantes(List<Participante> participantes) {
 		this.participantes = participantes;
 	}
-	
+
 }

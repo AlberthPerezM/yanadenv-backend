@@ -68,4 +68,6 @@ public class DistritoRestController {
         distritoService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    // Agregar un dato clinico
 }

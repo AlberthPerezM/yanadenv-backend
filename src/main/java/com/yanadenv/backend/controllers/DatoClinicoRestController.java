@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yanadenv.backend.models.entitys.DatoClinico;
+import com.yanadenv.backend.models.entitys.Participante;
 import com.yanadenv.backend.models.services.IDatoClinicoService;
+import com.yanadenv.backend.models.services.IParticipanteService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -25,6 +27,8 @@ public class DatoClinicoRestController {
 
     @Autowired
     private IDatoClinicoService datoClinicoService;
+    @Autowired
+    private IParticipanteService participanteService;
 
     // Obtener todos los datos clínicos
     @GetMapping("/datosclinicos")
@@ -93,11 +97,14 @@ public class DatoClinicoRestController {
     public void delete(@PathVariable Integer id) {
         datoClinicoService.delete(id);
     }
+
     // Contar todos los datos clínicos
     @GetMapping("/datosclinicos/count")
     public ResponseEntity<Long> countDatoClinicos() {
         Long count = datoClinicoService.countDatosClinicos();
         return ResponseEntity.ok(count);
     }
+
+    // Asignar un dato clínico a un participante
 
 }

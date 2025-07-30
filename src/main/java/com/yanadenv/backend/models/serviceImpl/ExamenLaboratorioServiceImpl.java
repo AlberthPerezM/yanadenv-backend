@@ -16,8 +16,7 @@ public class ExamenLaboratorioServiceImpl implements IExamenLaboratorioService {
 
     @Autowired
     private IExamenLaboratorioDao examenLaboratorioDao;
-    
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<ExamenLaboratorio> findAll() {
@@ -41,17 +40,21 @@ public class ExamenLaboratorioServiceImpl implements IExamenLaboratorioService {
     public void delete(Integer id) {
         examenLaboratorioDao.deleteById(id);
     }
-    //Retorna todos los exámenes de laboratorio en los que ha participado el participante con ID 'idPar'
-	@Override
+
+    // Retorna todos los exámenes de laboratorio en los que ha participado el
+    // participante con ID 'idPar'
+    @Override
     @Transactional(readOnly = true)
-	public List<ExamenLaboratorio> findByParticipanteId(Integer idPar) {
+    public List<ExamenLaboratorio> findByParticipanteId(Integer idPar) {
         return examenLaboratorioDao.findByParticipantes_IdPar(idPar);
 
-	}
-    // Retorna todos los participantes que están asociados al examen de laboratorio con ID 'idExa'
-	@Override
-	public List<Participante> findParticipantesByExamenId(Integer idExa) {
+    }
+
+    // Retorna todos los participantes que están asociados al examen de laboratorio
+    // con ID 'idExa'
+    @Override
+    public List<Participante> findParticipantesByExamenId(Integer idExa) {
         return examenLaboratorioDao.findParticipantesByExamenId(idExa);
-	}
+    }
 
 }
