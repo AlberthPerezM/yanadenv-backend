@@ -2,7 +2,6 @@ package com.yanadenv.backend.models.services;
 
 import java.util.List;
 
-import com.yanadenv.backend.models.entitys.DatoClinico;
 import com.yanadenv.backend.models.entitys.ExamenLaboratorio;
 import com.yanadenv.backend.models.entitys.Participante;
 
@@ -17,13 +16,8 @@ public interface IParticipanteService {
 
     List<Participante> findByExamenId(Integer idExa);
 
-    // En IParticipanteService, agregar:
+    Long countParticipantes();
 
-    List<DatoClinico> findDatosClinicosByParticipanteId(Integer idPar);
-
-    Participante addDatoClinicoToParticipante(Integer idPar, Integer idDat);
-
-    Participante removeDatoClinicoFromParticipante(Integer idPar, Integer idDat);
     /* Examen de laboratorio */
 
     List<ExamenLaboratorio> findExamenesByParticipanteId(Integer idPar);
@@ -32,6 +26,6 @@ public interface IParticipanteService {
 
     Participante removeExamenFromParticipante(Integer idPar, Integer idExa);
 
-    /* Contador */
-    Long countParticipantes();
+    /* Datos */
+
 }

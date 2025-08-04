@@ -3,10 +3,8 @@ package com.yanadenv.backend.models.entitys;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 
@@ -133,11 +131,11 @@ public class DatoClinico implements Serializable {
 	@Column(name = "glasgow_apertura_verbal")
 	private Integer glasgowAperturaVerbal;
 
-	// Relación ManyToMany Participantes
-	@ManyToMany(mappedBy = "datosClinicos", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE })
-	@JsonIgnore
-	private List<Participante> participantes = new ArrayList<>();
+	// Relación ManyToOne Participantes
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_par", nullable = false)
+	@JsonBackReference
+	private Participante participante;
 
 	// Getters y Setters
 
@@ -437,12 +435,12 @@ public class DatoClinico implements Serializable {
 		this.glasgowAperturaVerbal = glasgowAperturaVerbal;
 	}
 
-	public List<Participante> getParticipantes() {
-		return participantes;
+	public Participante getParticipante() {
+		return participante;
 	}
 
-	public void setParticipantes(List<Participante> participantes) {
-		this.participantes = participantes;
+	public void setParticipante(Participante participante) {
+		this.participante = participante;
 	}
 
 }

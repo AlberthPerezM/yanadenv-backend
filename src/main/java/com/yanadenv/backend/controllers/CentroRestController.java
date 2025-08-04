@@ -1,4 +1,5 @@
 package com.yanadenv.backend.controllers;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,6 @@ public class CentroRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         centro.setDistrito(distrito);
-
         Centro nuevoCentro = centroService.save(centro);
         return new ResponseEntity<>(nuevoCentro, HttpStatus.CREATED);
     }
@@ -68,7 +68,6 @@ public class CentroRestController {
         if (centroActual == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         centroActual.setNombreCent(centro.getNombreCent());
         centroActual.setDireccion(centro.getDireccion());
         centroActual.setHabilitadoCent(centro.isHabilitadoCent());
@@ -83,7 +82,6 @@ public class CentroRestController {
             }
             centroActual.setDistrito(distrito);
         }
-
         Centro centroActualizado = centroService.save(centroActual);
         return new ResponseEntity<>(centroActualizado, HttpStatus.OK);
     }
@@ -98,25 +96,23 @@ public class CentroRestController {
         centroService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
- // Obtener los centros de un distrito
-  @GetMapping("/distritos/{id}/centros")
+
+    // Obtener los centros de un distrito
+    @GetMapping("/distritos/{id}/centros")
     public ResponseEntity<List<Centro>> listarCentrosPorDistrito(@PathVariable Integer id) {
         Distrito distrito = distritoService.findById(id);
         if (distrito == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        // En este punto, asumo que tienes un método getCentros() en la entidad Distrito que te devuelve la lista de centros.
         List<Centro> centros = distrito.getCentros();
         return new ResponseEntity<>(centros, HttpStatus.OK);
     }
-  //Contador de centros
-//Contar todos los centros
-@GetMapping("/centros/count")
-public ResponseEntity<Long> countCentros() {
-   Long count = centroService.countCentros();
-   return ResponseEntity.ok(count);
-}
+
+    // Contar todos los centros
+    @GetMapping("/centros/count")
+    public ResponseEntity<Long> countCentros() {
+        Long count = centroService.countCentros();
+        return ResponseEntity.ok(count);
+    }
 
 }

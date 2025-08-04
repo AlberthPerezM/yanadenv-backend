@@ -1,7 +1,11 @@
 package com.yanadenv.backend.models.entitys;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +14,7 @@ public class Participante implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+
     private Integer idPar;
 
     @Column(name = "nombre_par", length = 50, nullable = false)
@@ -39,24 +43,16 @@ public class Participante implements Serializable {
 
     @Column(name = "edad_gestacional")
     private Integer edadGestacional;
-    
-    //Examenes laboratorio
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-        name = "participante_examen_laboratorio",
-        joinColumns = @JoinColumn(name = "id_par"),
-        inverseJoinColumns = @JoinColumn(name = "id_exa")
-    )
+
+    // Examenes laboratorio
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "participante_examen_laboratorio", joinColumns = @JoinColumn(name = "id_par"), inverseJoinColumns = @JoinColumn(name = "id_exa"))
     private List<ExamenLaboratorio> examenesLaboratorio;
-    
-    //Datos clinicos
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-        name = "participante_dato_clinico",
-        joinColumns = @JoinColumn(name = "id_par"),
-        inverseJoinColumns = @JoinColumn(name = "id_dat")
-    )
-    private List<DatoClinico> datosClinicos;
+
+    // Datos clinicos
+    @OneToMany(mappedBy = "participante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<DatoClinico> datosClinicos = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;
 
@@ -141,21 +137,20 @@ public class Participante implements Serializable {
         this.edadGestacional = edadGestacional;
     }
 
-	public List<ExamenLaboratorio> getExamenesLaboratorio() {
-		return examenesLaboratorio;
-	}
+    public List<ExamenLaboratorio> getExamenesLaboratorio() {
+        return examenesLaboratorio;
+    }
 
-	public void setExamenesLaboratorio(List<ExamenLaboratorio> examenesLaboratorio) {
-		this.examenesLaboratorio = examenesLaboratorio;
-	}
+    public void setExamenesLaboratorio(List<ExamenLaboratorio> examenesLaboratorio) {
+        this.examenesLaboratorio = examenesLaboratorio;
+    }
 
-	public List<DatoClinico> getDatosClinicos() {
-		return datosClinicos;
-	}
+    public List<DatoClinico> getDatosClinicos() {
+        return datosClinicos;
+    }
 
-	public void setDatosClinicos(List<DatoClinico> datosClinicos) {
-		this.datosClinicos = datosClinicos;
-	}
+    public void setDatosClinicos(List<DatoClinico> datosClinicos) {
+        this.datosClinicos = datosClinicos;
+    }
 
 }
-

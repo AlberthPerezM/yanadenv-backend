@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.yanadenv.backend.models.entitys.DatoClinico;
 import com.yanadenv.backend.models.entitys.Participante;
@@ -27,6 +28,7 @@ public class DatoClinicoRestController {
 
     @Autowired
     private IDatoClinicoService datoClinicoService;
+
     @Autowired
     private IParticipanteService participanteService;
 
@@ -105,6 +107,26 @@ public class DatoClinicoRestController {
         return ResponseEntity.ok(count);
     }
 
-    // Asignar un dato clínico a un participante
+    /* */
+    @GetMapping("/participantes/{idPar}/datosclinicos")
+    public List<DatoClinico> getDatosClinicosPorParticipante(@PathVariable Integer idPar) {
+        Participante participante = participanteService.findById(idPar);
+        if (participante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante no encontrado");
+        }
+        return participante.getDatosClinicos();
+    }
+
+    // Crear un dato clínico y asociarlo a un participa
+    @PostMapping("/datosclinicos/participante/{idPar}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public DatoClinico createforarticipante(@PathVariable Integer idPar, @RequestBody DatoClinico datoClinico) {
+        Participante participante = participanteService.findById(idPar);
+        if (participante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante no encontrado");
+        }
+        datoClinico.setParticipante(participante);
+        return datoClinicoService.save(datoClinico);
+    }
 
 }

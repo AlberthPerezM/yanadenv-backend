@@ -47,7 +47,13 @@ public class ParticipanteServiceImpl implements IParticipanteService {
     public void delete(Integer id) {
         participanteDao.deleteById(id);
     }
+    // Contador de participantes
 
+    @Override
+    @Transactional(readOnly = true)
+    public Long countParticipantes() {
+        return participanteDao.count();
+    }
     // En ParticipanteServiceImpl, agregar:
 
     @Autowired
@@ -93,57 +99,4 @@ public class ParticipanteServiceImpl implements IParticipanteService {
         return save(participante);
     }
 
-    /* Datos clinicos */
-    @Autowired
-    private IDatoClinicoService datoClinicoService;
-
-    /* Datoclinico */
-    @Override
-    @Transactional(readOnly = true)
-    public List<DatoClinico> findDatosClinicosByParticipanteId(Integer idPar) {
-        Participante participante = findById(idPar);
-        return participante != null ? participante.getDatosClinicos() : Collections.emptyList();
-    }
-
-    @Override
-    @Transactional
-    public Participante addDatoClinicoToParticipante(Integer idPar, Integer idDat) {
-        Participante participante = findById(idPar);
-        DatoClinico datoClinico = datoClinicoService.findById(idDat);
-
-        if (participante == null || datoClinico == null) {
-            throw new RuntimeException("Participante o Dato Clínico no encontrado");
-        }
-
-        if (participante.getDatosClinicos() == null) {
-            participante.setDatosClinicos(new ArrayList<>());
-        }
-
-        participante.getDatosClinicos().add(datoClinico);
-        datoClinico.getParticipantes().add(participante);
-
-        return save(participante);
-    }
-
-    @Override
-    @Transactional
-    public Participante removeDatoClinicoFromParticipante(Integer idPar, Integer idDat) {
-        Participante participante = findById(idPar);
-        DatoClinico datoClinico = datoClinicoService.findById(idDat);
-
-        if (participante == null || datoClinico == null) {
-            throw new RuntimeException("Participante o Dato Clínico no encontrado");
-        }
-
-        participante.getDatosClinicos().remove(datoClinico);
-        datoClinico.getParticipantes().remove(participante);
-
-        return save(participante);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Long countParticipantes() {
-        return participanteDao.count();
-    }
 }

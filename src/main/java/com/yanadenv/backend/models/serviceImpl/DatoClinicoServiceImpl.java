@@ -46,4 +46,8 @@ public class DatoClinicoServiceImpl implements IDatoClinicoService {
 		return datoClinicoDao.count();
 	}
 
+	@Override
+	public List<DatoClinico> findByParticipanteId(Integer idPar) {
+		return datoClinicoDao.findByParticipanteIdPar(idPar);
+	}
 }
