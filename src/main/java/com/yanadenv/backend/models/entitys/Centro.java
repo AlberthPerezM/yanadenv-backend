@@ -1,15 +1,10 @@
 package com.yanadenv.backend.models.entitys;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "centro")
@@ -42,6 +37,12 @@ public class Centro {
     @JoinColumn(name = "id_dist", nullable = false)
     @JsonBackReference
     private Distrito distrito;
+
+    @OneToMany(mappedBy = "centro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @JsonBackReference // <-- evita el bucle infinito
+
+    private List<Campania> campanias = new ArrayList<>();
 
     // Getters y Setters
 
@@ -108,4 +109,13 @@ public class Centro {
     public void setDistrito(Distrito distrito) {
         this.distrito = distrito;
     }
+
+    public List<Campania> getCampanias() {
+        return campanias;
+    }
+
+    public void setCampanias(List<Campania> campanias) {
+        this.campanias = campanias;
+    }
+
 }

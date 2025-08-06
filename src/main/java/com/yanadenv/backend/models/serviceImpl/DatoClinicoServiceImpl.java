@@ -47,7 +47,8 @@ public class DatoClinicoServiceImpl implements IDatoClinicoService {
 	}
 
 	@Override
-	public List<DatoClinico> findByParticipanteId(Integer idPar) {
+	public DatoClinico findByParticipanteId(Integer idPar) {
 		return datoClinicoDao.findByParticipanteIdPar(idPar);
 	}
+
 }

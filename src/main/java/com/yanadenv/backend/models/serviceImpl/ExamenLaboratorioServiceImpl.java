@@ -42,7 +42,7 @@ public class ExamenLaboratorioServiceImpl implements IExamenLaboratorioService {
     }
 
     // Retorna todos los exámenes de laboratorio en los que ha participado el
-    // participante con ID 'idPar'
+
     @Override
     @Transactional(readOnly = true)
     public List<ExamenLaboratorio> findByParticipanteId(Integer idPar) {
@@ -51,7 +51,7 @@ public class ExamenLaboratorioServiceImpl implements IExamenLaboratorioService {
     }
 
     // Retorna todos los participantes que están asociados al examen de laboratorio
-    // con ID 'idExa'
+
     @Override
     public List<Participante> findParticipantesByExamenId(Integer idExa) {
         return examenLaboratorioDao.findParticipantesByExamenId(idExa);

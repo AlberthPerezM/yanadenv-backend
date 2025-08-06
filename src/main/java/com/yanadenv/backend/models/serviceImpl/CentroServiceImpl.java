@@ -7,44 +7,53 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yanadenv.backend.models.dao.ICentroDao;
+import com.yanadenv.backend.models.entitys.Campania;
 import com.yanadenv.backend.models.entitys.Centro;
 import com.yanadenv.backend.models.services.ICentroService;
 
 @Service
-public class CentroServiceImpl implements ICentroService{
+public class CentroServiceImpl implements ICentroService {
 	@Autowired
-    private ICentroDao centroDao;
-	
+	private ICentroDao centroDao;
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Centro> findAll() {
 		return (List<Centro>) centroDao.findAll();
 	}
-	
-    //Buscar ID
+
+	// Buscar ID
 	@Override
 	@Transactional(readOnly = true)
 	public Centro findById(Integer id) {
 		return centroDao.findById(id).orElse(null);
 	}
-	
-    //Guardar
+
+	// Guardar
 	@Override
-	@Transactional 
+	@Transactional
 	public Centro save(Centro centro) {
 		return centroDao.save(centro);
 	}
-    //Eliminar
+
+	// Eliminar
 	@Override
 	@Transactional
 	public void delete(Integer id) {
 		centroDao.deleteById(id);
 	}
-    //Contador de centros
+
+	// Contador de centros
 	@Override
 	@Transactional(readOnly = true)
 	public Long countCentros() {
-	    return centroDao.count();
+		return centroDao.count();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Campania> findAllCampanias() {
+		return centroDao.findAllCampanias();
 	}
 
 }

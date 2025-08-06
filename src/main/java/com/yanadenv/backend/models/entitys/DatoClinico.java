@@ -131,12 +131,12 @@ public class DatoClinico implements Serializable {
 	@Column(name = "glasgow_apertura_verbal")
 	private Integer glasgowAperturaVerbal;
 
-	// Relación ManyToOne Participantes
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_par", nullable = false)
+	// Relación
+
+	@OneToOne
+	@JoinColumn(name = "id_par", unique = true, nullable = false)
 	@JsonBackReference
 	private Participante participante;
-
 	// Getters y Setters
 
 	public LocalDateTime getFechaRegistro() {

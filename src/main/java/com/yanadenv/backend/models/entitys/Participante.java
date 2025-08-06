@@ -50,9 +50,9 @@ public class Participante implements Serializable {
     private List<ExamenLaboratorio> examenesLaboratorio;
 
     // Datos clinicos
-    @OneToMany(mappedBy = "participante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "participante", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<DatoClinico> datosClinicos = new ArrayList<>();
+    private DatoClinico datoClinico;
 
     private static final long serialVersionUID = 1L;
 
@@ -145,12 +145,12 @@ public class Participante implements Serializable {
         this.examenesLaboratorio = examenesLaboratorio;
     }
 
-    public List<DatoClinico> getDatosClinicos() {
-        return datosClinicos;
+    public DatoClinico getDatoClinico() {
+        return datoClinico;
     }
 
-    public void setDatosClinicos(List<DatoClinico> datosClinicos) {
-        this.datosClinicos = datosClinicos;
+    public void setDatoClinico(DatoClinico datoClinico) {
+        this.datoClinico = datoClinico;
     }
 
 }

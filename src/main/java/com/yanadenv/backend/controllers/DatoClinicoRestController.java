@@ -108,25 +108,38 @@ public class DatoClinicoRestController {
     }
 
     /* */
-    @GetMapping("/participantes/{idPar}/datosclinicos")
-    public List<DatoClinico> getDatosClinicosPorParticipante(@PathVariable Integer idPar) {
-        Participante participante = participanteService.findById(idPar);
-        if (participante == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante no encontrado");
-        }
-        return participante.getDatosClinicos();
-    }
 
     // Crear un dato clínico y asociarlo a un participa
     @PostMapping("/datosclinicos/participante/{idPar}")
     @ResponseStatus(HttpStatus.CREATED)
-    public DatoClinico createforarticipante(@PathVariable Integer idPar, @RequestBody DatoClinico datoClinico) {
+    public DatoClinico createForParticipante(@PathVariable Integer idPar, @RequestBody DatoClinico datoClinico) {
         Participante participante = participanteService.findById(idPar);
         if (participante == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante no encontrado");
         }
+
+        // Validar si ya tiene dato clínico
+        if (participante.getDatoClinico() != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este participante ya tiene un dato clínico");
+        }
+
         datoClinico.setParticipante(participante);
         return datoClinicoService.save(datoClinico);
+    }
+
+    @GetMapping("/datosclinicos/participante/{idPar}")
+    public ResponseEntity<DatoClinico> getByParticipante(@PathVariable Integer idPar) {
+        Participante participante = participanteService.findById(idPar);
+        if (participante == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        DatoClinico dato = datoClinicoService.findByParticipanteId(idPar);
+        if (dato == null) {
+            return ResponseEntity.notFound().build(); // <- esto se usa para que en el frontend sepa que no existe
+        }
+
+        return ResponseEntity.ok(dato);
     }
 
 }

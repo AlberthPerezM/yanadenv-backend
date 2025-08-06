@@ -17,6 +17,5 @@ public interface IDatoClinicoService {
     /* Contador */
     Long countDatosClinicos();
 
-    List<DatoClinico> findByParticipanteId(Integer idPar);
-
+    public DatoClinico findByParticipanteId(Integer idPar);
 }
