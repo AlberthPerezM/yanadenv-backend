@@ -2,6 +2,7 @@ package com.yanadenv.backend.models.services;
 
 import java.util.List;
 
+import com.yanadenv.backend.models.entitys.Campania;
 import com.yanadenv.backend.models.entitys.ExamenLaboratorio;
 import com.yanadenv.backend.models.entitys.Participante;
 
@@ -26,6 +27,7 @@ public interface IParticipanteService {
 
     Participante removeExamenFromParticipante(Integer idPar, Integer idExa);
 
-    /* Datos */
+    /* Campanias */
+    public List<Campania> findAllCampanias();
 
 }

@@ -2,8 +2,11 @@ package com.yanadenv.backend.models.entitys;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "campania")
@@ -31,9 +34,14 @@ public class Campania {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference // <-- evita el bucle infinito
-
     @JoinColumn(name = "id_cent", nullable = false)
     private Centro centro;
+
+    // Campania.java
+
+    @OneToMany(mappedBy = "campania", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("campania")
+    private List<Participante> participantes = new ArrayList<>();
 
     // Getters y Setters
 
@@ -92,4 +100,13 @@ public class Campania {
     public void setCentro(Centro centro) {
         this.centro = centro;
     }
+
+    public List<Participante> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(List<Participante> participantes) {
+        this.participantes = participantes;
+    }
+
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -54,7 +55,25 @@ public class Participante implements Serializable {
     @JsonManagedReference
     private DatoClinico datoClinico;
 
+    // Camapnias
+    // Participante.java
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cam", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "participantes" })
+    private Campania campania;
+
+    // Getter y Setter
+
     private static final long serialVersionUID = 1L;
+
+    public Campania getCampania() {
+        return campania;
+    }
+
+    public void setCampania(Campania campania) {
+        this.campania = campania;
+    }
 
     // Getters y Setters
     public Integer getIdPar() {

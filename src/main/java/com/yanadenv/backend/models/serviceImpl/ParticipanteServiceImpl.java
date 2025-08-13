@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yanadenv.backend.models.dao.IParticipanteDao;
+import com.yanadenv.backend.models.entitys.Campania;
 import com.yanadenv.backend.models.entitys.DatoClinico;
 import com.yanadenv.backend.models.entitys.ExamenLaboratorio;
 import com.yanadenv.backend.models.entitys.Participante;
@@ -97,6 +98,12 @@ public class ParticipanteServiceImpl implements IParticipanteService {
         }
 
         return save(participante);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Campania> findAllCampanias() {
+        return participanteDao.findAllCampanias();
     }
 
 }

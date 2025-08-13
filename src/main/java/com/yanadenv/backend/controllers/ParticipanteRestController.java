@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import com.yanadenv.backend.models.entitys.Campania;
 import com.yanadenv.backend.models.entitys.Participante;
+import com.yanadenv.backend.models.services.ICampaniaService;
 import com.yanadenv.backend.models.services.IDatoClinicoService;
 import com.yanadenv.backend.models.services.IParticipanteService;
 
@@ -18,7 +20,7 @@ public class ParticipanteRestController {
 	@Autowired
 	private IParticipanteService participanteService;
 	@Autowired
-	private IDatoClinicoService datoClinicoService;
+	private ICampaniaService campaniaService;
 
 	// Obtener todos los participantes
 	@GetMapping("/participantes")
@@ -66,6 +68,11 @@ public class ParticipanteRestController {
 	@GetMapping("/participantes/count")
 	public Long countParticipantes() {
 		return participanteService.countParticipantes();
+	}
+
+	@GetMapping("/participantes/campanias")
+	public List<Campania> findAllCampanias() {
+		return participanteService.findAllCampanias();
 	}
 
 }
